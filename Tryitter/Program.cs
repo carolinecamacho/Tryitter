@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Tryitter.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMvcCore();
 
+string sqlServerConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<TryitterContext>(options => 
+                    options.UseSqlServer(sqlServerConnection /*, ServerVersion.AutoDetect(sqlServerConnection)*/));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
